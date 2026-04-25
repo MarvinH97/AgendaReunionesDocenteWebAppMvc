@@ -1,0 +1,118 @@
+﻿@model AgendaReunionesDocenteWebAppMvc.Models.Usuarios
+
+@{
+    ViewBag.Title = "Eliminar Docente";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Eliminar Docente</h2>
+<hr />
+<div>
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Nombres)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Nombres)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Apellidos)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Apellidos)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Edad)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Edad)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Genero)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Genero)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Correo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Correo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Telefono)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Telefono)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Usuario)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Usuario)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Clave)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Clave)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.EsDocente)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EsDocente)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm("Delete", "Usuarios", FormMethod.Post, new { id = "formDelete" }))
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <button type="button" class="btn btn-danger" onclick="confirmarEliminar(this);">
+                <i class="fa fa-trash"></i>
+                <span>Eliminar</span>
+            </button>
+            <a href="@Url.Action("Index")" class="btn btn-secondary">
+                <i class="fa fa-arrow-left"></i>
+                <span>Volver</span>
+            </a>
+        </div>
+    }
+</div>
+
+<script>
+    function confirmarEliminar(btn) {
+        Swal.fire({
+            title: '¿Estás seguro?',
+            text: 'Esta acción eliminará el registro',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Sí, eliminar',
+            cancelButtonText: 'Cancelar'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $("#formDelete").submit();
+            }
+        });
+    }
+</script>

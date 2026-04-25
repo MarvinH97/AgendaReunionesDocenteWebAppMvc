@@ -1,0 +1,81 @@
+﻿@model AgendaReunionesDocenteWebAppMvc.Models.Reuniones
+
+@{
+    ViewBag.Title = "Eliminar Reunión";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Eliminar Reunión</h2>
+<hr />
+<div>
+    <dl class="dl-horizontal">
+        <dd>
+            @Html.DisplayFor(model => model.IdUsuario)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Titulo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Titulo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Descripcion)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Descripcion)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FechaProgramacion)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FechaProgramacion)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Estado)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Estado)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm("Delete", "Reuniones", FormMethod.Post, new { id = "formDelete" }))
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <button type="button" class="btn btn-danger" onclick="confirmarEliminar(this);">
+                <i class="fa fa-trash"></i>
+                <span>Eliminar</span>
+            </button>
+            <a href="@Url.Action("Index")" class="btn btn-secondary">
+                <i class="fa fa-arrow-left"></i>
+                <span>Volver</span>
+            </a>
+        </div>
+    }
+</div>
+<script>
+    function confirmarEliminar(btn) {
+        Swal.fire({
+            title: '¿Estás seguro?',
+            text: 'Esta acción eliminará el registro',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Sí, eliminar',
+            cancelButtonText: 'Cancelar'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $("#formDelete").submit();
+            }
+        });
+    }
+</script>

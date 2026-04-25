@@ -1,0 +1,54 @@
+﻿@model AgendaReunionesDocenteWebAppMvc.Models.Reuniones
+
+@{
+    ViewBag.Title = "Info Reunión";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h4>Información Docente</h4>
+<hr />
+<div>
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Titulo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Titulo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Descripcion)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Descripcion)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FechaProgramacion)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FechaProgramacion)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Estado)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Estado)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    <a href="@Url.Action("Edit", new { id = Model.Id })" class="btn btn-primary">
+        <i class="fa fa-pencil"></i>
+        <span>Editar</span>
+    </a>
+    <a href="@Url.Action("Index")" class="btn btn-secondary">
+        <i class="fa fa-arrow-left"></i> Volver
+    </a>
+</p>

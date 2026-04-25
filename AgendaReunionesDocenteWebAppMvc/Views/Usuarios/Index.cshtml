@@ -1,0 +1,72 @@
+﻿@model IEnumerable<AgendaReunionesDocenteWebAppMvc.Models.Usuarios>
+
+@{
+    ViewBag.Title = "Docentes";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row mt-5">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header text-center">
+                <h5>LISTADO DE DOCENTES</h5>
+            </div>
+            <div class="card-body">
+                <div class="row mb-3">
+                    <div class="col-6">
+                        @using (Html.BeginForm("Index", "Usuarios", FormMethod.Get))
+                        {
+                            <div class="input-group">
+                                <input type="text"
+                                       class="form-control"
+                                       name="filtro"
+                                       value="@(ViewBag.Filtro ?? "")"
+                                       placeholder="Buscar por nombre o apellido..." />
+                                <button type="submit" class="btn btn-primary fa fa-search"></button>
+                            </div>
+                        }
+                    </div>
+                    <div class="col-6 text-end">
+                        <a href="@Url.Action("Create")" class="btn btn-primary">
+                            <i class="fa fa-plus"></i>
+                            <span>Nuevo Registro</span>
+                        </a>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Nombres</th>
+                                <th>Apellidos</th>
+                                <th>Edad</th>
+                                <th>Género</th>
+                                <th>Correo</th>
+                                <th>Teléfono</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>@item.Nombres</td>
+                                    <td>@item.Apellidos</td>
+                                    <td>@item.Edad</td>
+                                    <td>@item.Genero</td>
+                                    <td>@item.Correo</td>
+                                    <td>@item.Telefono</td>
+                                    <td>
+                                        @Html.ActionLink("Edit", "Edit", new { id = item.Id }, new { @class = "btn btn-primary" })
+                                        @Html.ActionLink("Details", "Details", new { id = item.Id }, new { @class = "btn btn-info" })
+                                        @Html.ActionLink("Delete", "Delete", new { id = item.Id }, new { @class = "btn btn-danger" })
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
