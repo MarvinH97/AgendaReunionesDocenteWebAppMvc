@@ -15,10 +15,12 @@ namespace AgendaReunionesDocenteWebAppMvc.Models
         [Column(TypeName = "bigint")]
         public Int64 IdUsuario { get; set; }
 
+        [Required]
         [StringLength(100)]
         [Display(Name = "Título")]
         public string Titulo { get; set; }
 
+        [Required]
         [StringLength(500)]
         [Display(Name = "Descripción")]
         [DataType(DataType.MultilineText)] // Especifica que el campo es de tipo texto multilínea
