@@ -11,6 +11,7 @@ namespace AgendaReunionesDocenteWebAppMvc.Models
         public AgendaReunionDocenteDbContext() : base("name=_conn")
         {
         }
+        public DbSet<Docentes> Docentes { get; set; }
         public DbSet<Usuarios> Usuarios { get; set; }
         public DbSet<Reuniones> Reuniones { get; set; }
     }

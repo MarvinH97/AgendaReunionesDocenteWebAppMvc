@@ -129,13 +129,18 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ReunionesController.cs" />
+    <Compile Include="Controllers\DocentesController.cs" />
     <Compile Include="Controllers\UsuariosController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AgendaReunionDocenteDbContext.cs" />
+    <Compile Include="Models\Docentes.cs" />
+    <Compile Include="Models\DTOS\UsuarioDTO.cs" />
     <Compile Include="Models\Initializer.cs" />
+    <Compile Include="Models\DTOS\LoginDTO.cs" />
     <Compile Include="Models\Reuniones.cs" />
+    <Compile Include="Models\SeguridadHelper.cs" />
     <Compile Include="Models\Usuarios.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -200,16 +205,18 @@
     <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
-    <Content Include="Views\Usuarios\Create.cshtml" />
-    <Content Include="Views\Usuarios\Delete.cshtml" />
-    <Content Include="Views\Usuarios\Details.cshtml" />
-    <Content Include="Views\Usuarios\Edit.cshtml" />
-    <Content Include="Views\Usuarios\Index.cshtml" />
+    <Content Include="Views\Docentes\Create.cshtml" />
+    <Content Include="Views\Docentes\Delete.cshtml" />
+    <Content Include="Views\Docentes\Details.cshtml" />
+    <Content Include="Views\Docentes\Edit.cshtml" />
+    <Content Include="Views\Docentes\Index.cshtml" />
     <Content Include="Views\Reuniones\Create.cshtml" />
     <Content Include="Views\Reuniones\Delete.cshtml" />
     <Content Include="Views\Reuniones\Details.cshtml" />
     <Content Include="Views\Reuniones\Edit.cshtml" />
     <Content Include="Views\Reuniones\Index.cshtml" />
+    <Content Include="Views\Usuarios\Login.cshtml" />
+    <Content Include="Views\Usuarios\CrearUsuario.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

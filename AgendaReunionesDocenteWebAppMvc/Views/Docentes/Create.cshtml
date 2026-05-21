@@ -1,4 +1,4 @@
-﻿@model AgendaReunionesDocenteWebAppMvc.Models.Usuarios
+﻿@model AgendaReunionesDocenteWebAppMvc.Models.Docentes
 
 @{
     ViewBag.Title = "Registro Docentes";
@@ -65,22 +65,6 @@
                                 @Html.ValidationMessageFor(model => model.Telefono, "", new { @class = "text-danger" })
                             </div>
                         </div>
-
-                        @*<div class="form-group col-md-6 mb-2">
-                            @Html.LabelFor(model => model.Usuario, htmlAttributes: new { @class = "control-label col-md-6" })
-                            <div class="col-md-12">
-                                @Html.EditorFor(model => model.Usuario, new { htmlAttributes = new { @class = "form-control" } })
-                                @Html.ValidationMessageFor(model => model.Usuario, "", new { @class = "text-danger" })
-                            </div>
-                        </div>
-
-                        <div class="form-group col-md-6 mb-4">
-                            @Html.LabelFor(model => model.Clave, htmlAttributes: new { @class = "control-label col-md-6" })
-                            <div class="col-md-12">
-                                @Html.EditorFor(model => model.Clave, new { htmlAttributes = new { @class = "form-control" } })
-                                @Html.ValidationMessageFor(model => model.Clave, "", new { @class = "text-danger" })
-                            </div>
-                        </div>*@
 
                         <div class="mb-3 d-flex justify-content-between">
                             <button type="submit" class="btn btn-primary">

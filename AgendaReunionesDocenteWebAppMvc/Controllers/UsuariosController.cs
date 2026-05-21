@@ -1,50 +1,50 @@
-﻿using System;
+﻿using AgendaReunionesDocenteWebAppMvc.Models;
+using AgendaReunionesDocenteWebAppMvc.Models.DTOS;
+using System;
 using System.Collections.Generic;
-using System.Data;
-using System.Data.Entity;
 using System.Linq;
-using System.Net;
 using System.Web;
 using System.Web.Mvc;
-using AgendaReunionesDocenteWebAppMvc.Models;
 
 namespace AgendaReunionesDocenteWebAppMvc.Controllers
 {
     public class UsuariosController : Controller
     {
         private AgendaReunionDocenteDbContext db = new AgendaReunionDocenteDbContext();
-
         // GET: Usuarios
-        public ActionResult Index(string filtro = "")
+        public ActionResult Index()
         {
-            var usuarios = db.Usuarios.AsQueryable();
-
-            if (!string.IsNullOrEmpty(filtro))
-            {
-                usuarios = usuarios.Where(u => u.Nombres.Contains(filtro) || u.Apellidos.Contains(filtro));
-            }
-
-            ViewBag.Filtro = filtro;
-            return View(usuarios.ToList());
+            return View();
         }
 
-        // GET: Usuarios/Details/5
-        public ActionResult Details(long? id)
+        [HttpGet]
+        public ActionResult Login()
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Usuarios usuarios = db.Usuarios.Find(id);
-            if (usuarios == null)
-            {
-                return HttpNotFound();
-            }
-            return View(usuarios);
+            return View();
         }
 
-        // GET: Usuarios/Create
-        public ActionResult Create()
+        [HttpPost]
+        public ActionResult Login(LoginDTO model)
+        {
+            if (ModelState.IsValid)
+            {
+                var usuario = db.Usuarios
+                    .FirstOrDefault(u => u.Usuario == model.Usuario);
+                if (usuario != null)
+                {
+                    bool valido = SeguridadHelper.ValidarPassword(model.Clave, usuario.Password, usuario.Salt);
+                    if (valido)
+                        Console.WriteLine("✅ Login exitoso");
+                    else
+                        Console.WriteLine("❌ Credenciales inválidas");
+                }
+            }
+
+            return View(model);
+        }
+
+        [HttpGet]
+        public ActionResult CrearUsuario()
         {
             var generos = new List<SelectListItem>
             {
@@ -56,87 +56,30 @@ namespace AgendaReunionesDocenteWebAppMvc.Controllers
             return View();
         }
 
-        // POST: Usuarios/Create
-        // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que quiere enlazarse. Para obtener 
-        // más detalles, vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Nombres,Apellidos,Edad,Genero,Correo,Telefono,Usuario,Clave,EsDocente")] Usuarios usuarios)
+        public ActionResult CrearUsuario([Bind(Include = "Id,Nombres,Apellidos,Edad,Genero,Correo,Telefono,Usuario,Password1,Password2")] UsuarioDTO usuarioDTO)
         {
             if (ModelState.IsValid)
             {
-                db.Usuarios.Add(usuarios);
+                var (hash, salt) = SeguridadHelper.CrearPasswordHash(usuarioDTO.Password1);
+                Usuarios usuarioDB = new Usuarios();
+                usuarioDB.Nombres = usuarioDTO.Nombres;
+                usuarioDB.Apellidos = usuarioDTO.Apellidos;
+                usuarioDB.Edad = usuarioDTO.Edad;
+                usuarioDB.Genero = usuarioDTO.Genero;
+                usuarioDB.Correo = usuarioDTO.Correo;
+                usuarioDB.Telefono = usuarioDTO.Telefono;
+                usuarioDB.Usuario = usuarioDTO.Usuario;
+                usuarioDB.Password = hash;
+                usuarioDB.Salt = salt;
+                db.Usuarios.Add(usuarioDB);
                 db.SaveChanges();
                 TempData["ToastMessage"] = "El registro se creó correctamente.";
-                return RedirectToAction("Index");
+                return RedirectToAction("Login", "Home");
             }
 
-            return View(usuarios);
-        }
-
-        // GET: Usuarios/Edit/5
-        public ActionResult Edit(long? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Usuarios usuarios = db.Usuarios.Find(id);
-            if (usuarios == null)
-            {
-                return HttpNotFound();
-            }
-            var generos = new List<SelectListItem>
-            {
-                new SelectListItem { Value = "M", Text = "Masculino" },
-                new SelectListItem { Value = "F", Text = "Femenino" }
-            };
-            ViewBag.Generos = generos;
-            return View(usuarios);
-        }
-
-        // POST: Usuarios/Edit/5
-        // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que quiere enlazarse. Para obtener 
-        // más detalles, vea https://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Nombres,Apellidos,Edad,Genero,Correo,Telefono,Usuario,Clave,EsDocente")] Usuarios usuarios)
-        {
-            if (ModelState.IsValid)
-            {
-                db.Entry(usuarios).State = EntityState.Modified;
-                db.SaveChanges();
-                TempData["ToastMessage"] = "El registro se modificó correctamente.";
-                return RedirectToAction("Index");
-            }
-            return View(usuarios);
-        }
-
-        // GET: Usuarios/Delete/5
-        public ActionResult Delete(long? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Usuarios usuarios = db.Usuarios.Find(id);
-            if (usuarios == null)
-            {
-                return HttpNotFound();
-            }
-            return View(usuarios);
-        }
-
-        // POST: Usuarios/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(long id)
-        {
-            Usuarios usuarios = db.Usuarios.Find(id);
-            db.Usuarios.Remove(usuarios);
-            db.SaveChanges();
-            TempData["ToastMessage"] = "El registro se eliminó correctamente.";
-            return RedirectToAction("Index");
+            return View(usuarioDTO);
         }
 
         protected override void Dispose(bool disposing)
