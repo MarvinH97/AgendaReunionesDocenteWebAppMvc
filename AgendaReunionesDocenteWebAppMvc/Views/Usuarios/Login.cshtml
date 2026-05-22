@@ -11,7 +11,7 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        height: 100vh;
+        height: 80vh;
     }
 
     .login-form {
@@ -19,11 +19,38 @@
         max-width: 600px;
         min-width: 300px;
     }
+    .container-head {
+        height: 100px;
+        background-color: teal;
+        display: flex;
+        justify-content: center;
+        align-items: center
+    }
+    .container-head h5 {
+        font-size: 2rem;
+        text-transform: uppercase;
+        color: #fefefe;
+        text-shadow: 1px 1px 1px #000000;
+    }
 </style>
 
+<div class="container-head">
+    <h5>Sistema Agenda de Reuniones Docentes</h5>
+</div>
 <div class="contenedor">
-    @using (Html.BeginForm("Login", "Usuarios", FormMethod.Post, new { @class= "login-form" }))
+    @using (Html.BeginForm("Login", "Usuarios", FormMethod.Post, new { @class = "login-form" }))
     {
+        string mensaje = TempData["mensaje"] as string;
+        if (!string.IsNullOrWhiteSpace(mensaje))
+        {
+            <div class="alert alert-danger d-flex align-items-center" role="alert">
+                <span class="fa fa-times-circle me-3"></span>
+                <div>
+                    @mensaje
+                </div>
+            </div>
+        }
+        
         <div class="card">
             <div class="card-header text-center">
                 <h5>LOGIN</h5>
@@ -41,7 +68,7 @@
                     @Html.ValidationMessageFor(m => m.Clave, "", new { @class = "text-danger" })
                 </div>
                 <div class="mb-3 d-flex justify-content-between">
-                    <button type="submit" class="btn btn-primary">
+                    <button type="submit" class="btn btn-success">
                         <span>Iniciar sesión</span>
                         <i class="fa fa-sign-in"></i>
                     </button>

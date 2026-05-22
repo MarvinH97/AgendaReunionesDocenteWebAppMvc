@@ -5,7 +5,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Web;
 
-namespace AgendaReunionesDocenteWebAppMvc.Models
+namespace AgendaReunionesDocenteWebAppMvc.Helpers
 {
     public static class SeguridadHelper
     {

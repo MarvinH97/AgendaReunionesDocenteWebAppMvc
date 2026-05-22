@@ -12,8 +12,9 @@ namespace AgendaReunionesDocenteWebAppMvc.Models
         [StringLength(50)]
         public string Usuario { get; set; }
 
-        [Required(ErrorMessage = "La clave es obligatoria.")]
+        [Required(ErrorMessage = "La contraseña es obligatoria.")]
         [StringLength(50)]
+        [Display(Name = "Contraseña")]
         [DataType(DataType.Password)]
         public string Clave { get; set; }
     }

@@ -18,11 +18,15 @@
             </button>
             <div class="collapse navbar-collapse d-sm-inline-flex justify-content-between">
                 <ul class="navbar-nav flex-grow-1">
-                    <li>@Html.ActionLink("Inicio Sesión", "Index", "Home", new { area = "" }, new { @class = "nav-link" })</li>
-                    <li>@Html.ActionLink("Docentes", "Index", "Usuarios", new { area = "" }, new { @class = "nav-link" })</li>
+                    <li>@Html.ActionLink("Docentes", "Index", "Docentes", new { area = "" }, new { @class = "nav-link" })</li>
                     <li>@Html.ActionLink("Reuniones", "Index", "Reuniones", new { area = "" }, new { @class = "nav-link" })</li>
-                    @*<li>@Html.ActionLink("Actas", "Index", "Actas", new { area = "" }, new { @class = "nav-link" })</li>*@
                 </ul>
+                <form class="d-flex" role="search">
+                    <span class="badge text-bg-success">@Session["userName"]</span>
+                    <a href="@Url.Action("Logout", "Usuarios")">
+                        <span class="fa fa-sign-out ms-3" style="color:#fff; font-size: 1.2rem; cursor: pointer;"></span>
+                    </a>
+                </form>
             </div>
         </div>
     </nav>

@@ -134,13 +134,14 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\SessionAuthorizeAttribute.cs" />
     <Compile Include="Models\AgendaReunionDocenteDbContext.cs" />
     <Compile Include="Models\Docentes.cs" />
     <Compile Include="Models\DTOS\UsuarioDTO.cs" />
     <Compile Include="Models\Initializer.cs" />
     <Compile Include="Models\DTOS\LoginDTO.cs" />
     <Compile Include="Models\Reuniones.cs" />
-    <Compile Include="Models\SeguridadHelper.cs" />
+    <Compile Include="Helpers\SeguridadHelper.cs" />
     <Compile Include="Models\Usuarios.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

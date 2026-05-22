@@ -1,4 +1,5 @@
 ﻿using AgendaReunionesDocenteWebAppMvc.Models;
+using AgendaReunionesDocenteWebAppMvc.Helpers;
 using AgendaReunionesDocenteWebAppMvc.Models.DTOS;
 using System;
 using System.Collections.Generic;
@@ -11,6 +12,17 @@ namespace AgendaReunionesDocenteWebAppMvc.Controllers
     public class UsuariosController : Controller
     {
         private AgendaReunionDocenteDbContext db = new AgendaReunionDocenteDbContext();
+
+        internal void InicializarDatos()
+        {
+            var generos = new List<SelectListItem>
+            {
+                new SelectListItem { Value = "M", Text = "Masculino" },
+                new SelectListItem { Value = "F", Text = "Femenino" }
+            };
+            ViewBag.Generos = generos;
+        }
+
         // GET: Usuarios
         public ActionResult Index()
         {
@@ -34,9 +46,18 @@ namespace AgendaReunionesDocenteWebAppMvc.Controllers
                 {
                     bool valido = SeguridadHelper.ValidarPassword(model.Clave, usuario.Password, usuario.Salt);
                     if (valido)
-                        Console.WriteLine("✅ Login exitoso");
+                    {
+                        Session["userId"] = usuario.Id;
+                        Session["userName"] = $"{usuario.Nombres} {usuario.Apellidos}";
+                        TempData["ToastMessage"] = $"Bienvenido {usuario.Nombres} {usuario.Apellidos}";
+                        return RedirectToAction("Index", "Home");
+                    }
                     else
-                        Console.WriteLine("❌ Credenciales inválidas");
+                        TempData["mensaje"] = "Credenciales inválidas";
+                } 
+                else 
+                {
+                    TempData["mensaje"] = "Credenciales inválidas";
                 }
             }
 
@@ -44,15 +65,15 @@ namespace AgendaReunionesDocenteWebAppMvc.Controllers
         }
 
         [HttpGet]
+        public ActionResult Logout() { 
+            Session.Clear();
+            return RedirectToAction("Login", "Usuarios");
+        }
+
+        [HttpGet]
         public ActionResult CrearUsuario()
         {
-            var generos = new List<SelectListItem>
-            {
-                new SelectListItem { Value = "M", Text = "Masculino" },
-                new SelectListItem { Value = "F", Text = "Femenino" }
-            };
-
-            ViewBag.Generos = generos;
+            InicializarDatos();
             return View();
         }
 
@@ -62,23 +83,33 @@ namespace AgendaReunionesDocenteWebAppMvc.Controllers
         {
             if (ModelState.IsValid)
             {
-                var (hash, salt) = SeguridadHelper.CrearPasswordHash(usuarioDTO.Password1);
-                Usuarios usuarioDB = new Usuarios();
-                usuarioDB.Nombres = usuarioDTO.Nombres;
-                usuarioDB.Apellidos = usuarioDTO.Apellidos;
-                usuarioDB.Edad = usuarioDTO.Edad;
-                usuarioDB.Genero = usuarioDTO.Genero;
-                usuarioDB.Correo = usuarioDTO.Correo;
-                usuarioDB.Telefono = usuarioDTO.Telefono;
-                usuarioDB.Usuario = usuarioDTO.Usuario;
-                usuarioDB.Password = hash;
-                usuarioDB.Salt = salt;
-                db.Usuarios.Add(usuarioDB);
-                db.SaveChanges();
-                TempData["ToastMessage"] = "El registro se creó correctamente.";
-                return RedirectToAction("Login", "Home");
+                if (db.Usuarios.FirstOrDefault(u => u.Usuario == usuarioDTO.Usuario) != null)
+                {
+                    TempData["mensaje"] = "El nombre de usuario ya existe";
+                    InicializarDatos();
+                    return View(usuarioDTO);
+                }
+                else 
+                {
+                    var (hash, salt) = SeguridadHelper.CrearPasswordHash(usuarioDTO.Password1);
+                    Usuarios usuarioDB = new Usuarios
+                    {
+                        Nombres = usuarioDTO.Nombres,
+                        Apellidos = usuarioDTO.Apellidos,
+                        Edad = usuarioDTO.Edad,
+                        Genero = usuarioDTO.Genero,
+                        Correo = usuarioDTO.Correo,
+                        Telefono = usuarioDTO.Telefono,
+                        Usuario = usuarioDTO.Usuario,
+                        Password = hash,
+                        Salt = salt
+                    };
+                    db.Usuarios.Add(usuarioDB);
+                    db.SaveChanges();
+                    TempData["ToastMessage"] = "El registro se creó correctamente.";
+                    return RedirectToAction("Login", "Usuarios");
+                }
             }
-
             return View(usuarioDTO);
         }
 
