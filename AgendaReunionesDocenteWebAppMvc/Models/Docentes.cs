@@ -12,14 +12,17 @@ namespace AgendaReunionesDocenteWebAppMvc.Models
         [Key]
         public Int64 Id { get; set; }
 
+        [Display(Name = "Nombres *")]
         [Required(ErrorMessage = "El campo Nombres es obligatorio")]
         [StringLength(100)]
         public string Nombres { get; set; }
 
+        [Display(Name = "Apellidos *")]
         [Required(ErrorMessage = "El campo Apellidos es obligatorio")]
         [StringLength(100)]
         public string Apellidos { get; set; }
 
+        [Display(Name = "Edad (18 - 70 años) *")]
         [Required(ErrorMessage = "El campo Edad es obligatorio.")]
         [Range(18, 70, ErrorMessage = "La edad debe estar entre 18 y 70.")]
         public int Edad { get; set; }

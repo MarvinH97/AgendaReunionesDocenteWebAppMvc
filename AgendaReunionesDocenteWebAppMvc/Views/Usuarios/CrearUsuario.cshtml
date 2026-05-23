@@ -30,6 +30,18 @@
     <div class="contenedor">
         <div class="col-6">
             <div class="card">
+                @{ 
+                    string mensaje = TempData["mensaje"] as string;
+                    if (!string.IsNullOrWhiteSpace(mensaje))
+                    {
+                        <div class="alert alert-danger d-flex align-items-center" role="alert">
+                            <span class="fa fa-times-circle me-3"></span>
+                            <div>
+                                @mensaje
+                            </div>
+                        </div>
+                    }
+                }
                 <div class="card-header text-center">
                     <h5 style="color:#fefefe">REGISTRAR USUARIO</h5>
                 </div>

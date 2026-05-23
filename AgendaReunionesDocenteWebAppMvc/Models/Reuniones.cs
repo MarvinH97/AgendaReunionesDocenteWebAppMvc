@@ -17,17 +17,17 @@ namespace AgendaReunionesDocenteWebAppMvc.Models
 
         [Required]
         [StringLength(100)]
-        [Display(Name = "Título")]
+        [Display(Name = "Título *")]
         public string Titulo { get; set; }
 
         [Required]
         [StringLength(500)]
-        [Display(Name = "Descripción")]
+        [Display(Name = "Descripción *")]
         [DataType(DataType.MultilineText)] // Especifica que el campo es de tipo texto multilínea
         public string Descripcion { get; set; }
 
         [Required]
-        [Display(Name = "Fecha Programación")] // Etiqueta para mostrar en la vista
+        [Display(Name = "Fecha Programación *")] // Etiqueta para mostrar en la vista
         [DataType(DataType.Date)] // Especifica que el campo es de tipo fecha
         [Column(TypeName = "date")]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]

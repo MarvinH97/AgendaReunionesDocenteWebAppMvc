@@ -6,10 +6,12 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using AgendaReunionesDocenteWebAppMvc.Helpers;
 using AgendaReunionesDocenteWebAppMvc.Models;
 
 namespace AgendaReunionesDocenteWebAppMvc.Controllers
 {
+    [SessionAuthorize]
     public class ReunionesController : Controller
     {
         private AgendaReunionDocenteDbContext db = new AgendaReunionDocenteDbContext();
